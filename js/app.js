@@ -1,21 +1,67 @@
 // Variables
-const resultado = document.querySelector('#resultado')
-
+const marca = document.querySelector('#marca')
 const year = document.querySelector('#year')
+const minimo = document.querySelector('#minimo')
+const maximo = document.querySelector('#maximo')
+const puertas = document.querySelector('#puertas')
+const transmision = document.querySelector('#transmision')
+const color = document.querySelector('#color')
 
+const resultado = document.querySelector('#resultado')
 const max = new Date().getFullYear();
 const min = max - 10
 
-// Viendo si esta haciendo la operación bien.
-console.log(max, min);
+// Generando un objeto con la busqueda.
+const datosBusqueda = {
+  marca: '',
+  year: '',
+  precioMax: '',
+  precioMin: '',
+  puertas: '',
+  transmision: '',
+  color: ''
+}
 
 // Eventos
 document.addEventListener('DOMContentLoaded', () => {
   mostrarAutos()
-
-  // Llena las opciones de años
   llenarSelect()
 })
+
+console.log(datosBusqueda);
+
+// Event listener para cada uno de los Select
+marca.addEventListener('change', event => {
+  // Almaceno el valor en su propiedad.
+  datosBusqueda.marca = event.target.value
+
+  // console.log(datosBusqueda);
+
+})
+
+year.addEventListener('change', event => {
+  datosBusqueda.year = event.target.value
+})
+minimo.addEventListener('change', event => {
+  datosBusqueda.precioMin = event.target.value
+})
+maximo.addEventListener('change', event => {
+  datosBusqueda.precioMax = event.target.value
+})
+puertas.addEventListener('change', event => {
+  datosBusqueda.puertas = event.target.value
+})
+transmision.addEventListener('change', event => {
+  datosBusqueda.transmision = event.target.value
+})
+color.addEventListener('change', event => {
+  datosBusqueda.color = event.target.value
+
+  console.log(datosBusqueda);
+})
+
+
+
 
 // Funciones
 function mostrarAutos() {
@@ -31,19 +77,13 @@ function mostrarAutos() {
 
 }
 
-// Genera los años del Select
 function llenarSelect() {
 
-  // Trabajando la cantidad de años que podria ver esta agencia de carros
   for (let i = max; i >= min; i--) {
-    // Creamos un option, ya que lo insertaremos en el select
     const option = document.createElement('OPTION');
     option.value = i;
     option.textContent = i;
     year.appendChild(option);
-
-
-    // console.log(i);
   }
 
 }
@@ -52,17 +92,9 @@ function llenarSelect() {
 
 /** Comentarios extras:
  * 
- * 1.- En la pagina se percato que no habia data de años, por lo tanto lo llenaremos con puro JS.
+ * 1.- Una vez que revisamos que todo los campos de select, tienen datos, lo siguientes es guardar en algun lado la seleccion de cada no de ellos; y la mejor opcion es un "OBJETO"
  * 
- * 2.- Tomamos la opcion de new Date(), para tomar el año actual y de ahi partir para atras.
- * 
- * 3.- La idea del punto anterior, es que si en un futuro se esta en otro año, no es necesario hacer el cambio manual
- * 
- * 4.- Luego de verificar que tenemos el año correcto, trabajamos con un rango de 10 años e iteramos sobre ese rango con un for
- * 
- * 5.- por cada iteracion no solo debo mostrar su valor, si no tambien el atributo valur, ya que el elemento creado "option", toma lo que esta dentro de value.
- * 
- * 6.- finalizado esto, podemos ver que se inyectaron los valores dentro del elemento tomado arriba ("year") y con el appendChild, calsa perfecto.
+ * 2.- Creamos un event listener por cada selector declarado y nos percatamos que todos tengan sus valores, para esto debes apuntar al evento que tiene la función callback en el listener
  * 
  * 
  * 
