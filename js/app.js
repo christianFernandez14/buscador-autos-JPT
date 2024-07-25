@@ -11,7 +11,6 @@ const resultado = document.querySelector('#resultado')
 const max = new Date().getFullYear();
 const min = max - 10
 
-// Generando un objeto con la busqueda.
 const datosBusqueda = {
   marca: '',
   year: '',
@@ -28,40 +27,43 @@ document.addEventListener('DOMContentLoaded', () => {
   llenarSelect()
 })
 
-console.log(datosBusqueda);
-
 // Event listener para cada uno de los Select
 marca.addEventListener('change', event => {
-  // Almaceno el valor en su propiedad.
-  datosBusqueda.marca = event.target.value
+  datosBusqueda.marca = event.target.value;
 
-  // console.log(datosBusqueda);
+  filtrarAuto();
 
-})
+});
 
 year.addEventListener('change', event => {
-  datosBusqueda.year = event.target.value
-})
+  datosBusqueda.year = event.target.value;
+
+});
+
 minimo.addEventListener('change', event => {
-  datosBusqueda.precioMin = event.target.value
-})
+  datosBusqueda.precioMin = event.target.value;
+
+});
+
 maximo.addEventListener('change', event => {
-  datosBusqueda.precioMax = event.target.value
-})
+  datosBusqueda.precioMax = event.target.value;
+
+});
+
 puertas.addEventListener('change', event => {
-  datosBusqueda.puertas = event.target.value
-})
+  datosBusqueda.puertas = event.target.value;
+
+});
+
 transmision.addEventListener('change', event => {
-  datosBusqueda.transmision = event.target.value
-})
+  datosBusqueda.transmision = event.target.value;
+
+});
+
 color.addEventListener('change', event => {
-  datosBusqueda.color = event.target.value
+  datosBusqueda.color = event.target.value;
 
-  console.log(datosBusqueda);
 })
-
-
-
 
 // Funciones
 function mostrarAutos() {
@@ -88,14 +90,35 @@ function llenarSelect() {
 
 }
 
+function filtrarAuto() {
+  // console.log('Filtrando...');
+
+  // Recuerda que "autos" es el array que tiene todo los datos o db, como se comporta para este momentos
+  const resultado = autos.filter(filtrarMarca)
+
+  console.log(resultado);
+
+
+}
+
+function filtrarMarca(auto) {
+  // console.log(auto);// Aca podemos ver que itera sobre todo el array
+  if (datosBusqueda.marca) { // debemos vericiar que haya algun dato, por eso hacemos este condicional previo
+    return auto.marca === datosBusqueda.marca;
+  }
+  // Este return aca, es para no perder la referencia, en caso de que el usuario no filtre por marca, el nuevo else.s
+  return auto;
+}
+
 
 
 /** Comentarios extras:
  * 
- * 1.- Una vez que revisamos que todo los campos de select, tienen datos, lo siguientes es guardar en algun lado la seleccion de cada no de ellos; y la mejor opcion es un "OBJETO"
+ * 1.- Una vez los event ya escuchando, podemos trabajar con los filtros, para ello podemos usar una funcion que genere esa logica.
  * 
- * 2.- Creamos un event listener por cada selector declarado y nos percatamos que todos tengan sus valores, para esto debes apuntar al evento que tiene la función callback en el listener
+ * 2.- Pera esta funcion tendran otras funciones como parametros, y a esta la definimos como funcniones de alto nivel, la idea aca es que filtre por el selector que se encuentre el usuario dando click en el momento.
  * 
+ * 3.- Una vez en esta funcion de alto nivel, debes cerciorarte que haya valor en esa propiedad, y de contrario retorna el array completo
  * 
  * 
  */
