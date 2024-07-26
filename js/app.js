@@ -127,4 +127,8 @@ function filtrarYear(auto) {
  * 
  * 2.- Ya con el codigo más limpio, nos vamos a iterar por el Select siguiente que es el año, el filter soporta iteracion sobre iteracion.
  * 
+ * 3.- Um caso bastante importante, es que al momento que estabamos filtrando, nos traia un array vacio la momento de filtrar por año, y esto era porque estabamos comparando un string (lo que estaba entrando en el objeto) con un number (en el array de autos).
+ * 
+ * 4.- Debe mantenerse el return del array de auto, en el caso de else, por si no queremos filtrar por año
+ * 
  */
