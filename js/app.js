@@ -125,10 +125,9 @@ function filtrarYear(auto) {
  * 
  * 1.- Antes de continuar con los otros filtros, podemos mejorar un poco el codigo de filtrarMarca, haciendo destructuring.
  * 
- * 2.- Ya con el codigo más limpio, nos vamos a iterar por el Select siguiente que es el año, el filter soporta iteracion sobre iteracion.
+ * 2.- Pera esta funcion tendran otras funciones como parametros, y a esta la definimos como funcniones de alto nivel, la idea aca es que filtre por el selector que se encuentre el usuario dando click en el momento.
  * 
- * 3.- Um caso bastante importante, es que al momento que estabamos filtrando, nos traia un array vacio la momento de filtrar por año, y esto era porque estabamos comparando un string (lo que estaba entrando en el objeto) con un number (en el array de autos).
+ * 3.- Una vez en esta funcion de alto nivel, debes cerciorarte que haya valor en esa propiedad, y de contrario retorna el array completo
  * 
- * 4.- Debe mantenerse el return del array de auto, en el caso de else, por si no queremos filtrar por año
  * 
  */
