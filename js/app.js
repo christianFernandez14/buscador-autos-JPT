@@ -23,7 +23,7 @@ const datosBusqueda = {
 
 // Eventos
 document.addEventListener('DOMContentLoaded', () => {
-  mostrarAutos()
+  mostrarAutos(autos)
   llenarSelect()
 })
 
@@ -35,7 +35,7 @@ marca.addEventListener('change', event => {
 });
 
 year.addEventListener('change', event => {
-  datosBusqueda.year = event.target.value;
+  datosBusqueda.year = parseInt(event.target.value);
 
   filtrarAuto();
 
@@ -67,7 +67,9 @@ color.addEventListener('change', event => {
 })
 
 // Funciones
-function mostrarAutos() {
+function mostrarAutos(autos) {
+  limpiarHTML(); // Elimina el HTML previo
+
   autos.forEach(auto => {
     const { marca, modelo, year, puertas, transmision, precio, color } = auto
     const autoHTML = document.createElement('P')
@@ -78,6 +80,13 @@ function mostrarAutos() {
     resultado.appendChild(autoHTML)
   })
 
+}
+
+// Funcion que limpiara el HTML
+function limpiarHTML() {
+  while (resultado.firstChild) {
+    resultado.removeChild(resultado.firstChild);
+  }
 }
 
 function llenarSelect() {
@@ -95,7 +104,8 @@ function filtrarAuto() {
   // Aca podemos filtrar por el año tambien 
   const resultado = autos.filter(filtrarMarca).filter(filtrarYear)
 
-  console.log(resultado);
+  // console.log(resultado);
+  mostrarAutos(resultado)
 
 }
 
@@ -109,12 +119,11 @@ function filtrarMarca(auto) {
 }
 
 function filtrarYear(auto) {
-  // console.log(auto); // vemos que el array es el ya filtro Marca
+
   const { year } = datosBusqueda
-  // console.log(typeof year); // Al incio nos nos traia informacion por que estabamos comparando string con number y usando el comparador strict
-  // console.log(typeof auto.year); // number
+
   if (year) {
-    return auto.year === parseInt(year);
+    return auto.year === year;
   }
   return auto;
 }
@@ -123,11 +132,12 @@ function filtrarYear(auto) {
 
 /** Comentarios extras:
  * 
- * 1.- Antes de continuar con los otros filtros, podemos mejorar un poco el codigo de filtrarMarca, haciendo destructuring.
+ * 1.- Podemos tambien hacer el parseInt de year, antes de guardarlo en nuestro objeto y que la funcion de filtarYear, no haga ese trabajo.
  * 
- * 2.- Pera esta funcion tendran otras funciones como parametros, y a esta la definimos como funcniones de alto nivel, la idea aca es que filtre por el selector que se encuentre el usuario dando click en el momento.
+ * 2.- La funcion que muestra los autos, debo forzarla con un parametro, para reutilizar, ya que ella es la que me permite mostrar los elementos.
  * 
- * 3.- Una vez en esta funcion de alto nivel, debes cerciorarte que haya valor en esa propiedad, y de contrario retorna el array completo
+ * 3.- Pero hay un dato curioso, y es que muestra la busqueda, al final de los resultados y esto se da por le appendChild, por lo tanto debemos limpiar previo el HTML y luego mostrar el nuevo HTML con las busquedas aplicadas.
  * 
+ * 4.- Se crea la funcion limpiarHTML con la logica más rapida (while)
  * 
  */
