@@ -44,10 +44,14 @@ year.addEventListener('change', event => {
 minimo.addEventListener('change', event => {
   datosBusqueda.precioMin = event.target.value;
 
+  filtrarAuto();
+
 });
 
 maximo.addEventListener('change', event => {
   datosBusqueda.precioMax = event.target.value;
+
+  filtrarAuto();
 
 });
 
@@ -101,8 +105,12 @@ function llenarSelect() {
 }
 
 function filtrarAuto() {
-  // Aca podemos filtrar por el año tambien 
-  const resultado = autos.filter(filtrarMarca).filter(filtrarYear)
+
+  const resultado = autos
+    .filter(filtrarMarca)
+    .filter(filtrarYear)
+    .filter(filtrarMinimo)
+    .filter(filtrarMaximo)
 
   // console.log(resultado);
   mostrarAutos(resultado)
@@ -119,7 +127,6 @@ function filtrarMarca(auto) {
 }
 
 function filtrarYear(auto) {
-
   const { year } = datosBusqueda
 
   if (year) {
@@ -128,16 +135,35 @@ function filtrarYear(auto) {
   return auto;
 }
 
+function filtrarMinimo(auto) {
+
+  const { precioMin } = datosBusqueda
+  // console.log(precioMin);
+
+  if (precioMin) {
+    return auto.precio >= precioMin;
+  }
+  return auto;
+}
+
+function filtrarMaximo(auto) {
+
+  const { precioMax } = datosBusqueda
+  // console.log(precioMax);
+
+  if (precioMax) {
+    return auto.precio <= precioMax;
+  }
+  return auto;
+}
+
+
 
 
 /** Comentarios extras:
  * 
- * 1.- Podemos tambien hacer el parseInt de year, antes de guardarlo en nuestro objeto y que la funcion de filtarYear, no haga ese trabajo.
+ * 1.- Siguiendo con las funcionalidades, debes seguir llamandola en los subsiguientes listener
  * 
- * 2.- La funcion que muestra los autos, debo forzarla con un parametro, para reutilizar, ya que ella es la que me permite mostrar los elementos.
- * 
- * 3.- Pero hay un dato curioso, y es que muestra la busqueda, al final de los resultados y esto se da por le appendChild, por lo tanto debemos limpiar previo el HTML y luego mostrar el nuevo HTML con las busquedas aplicadas.
- * 
- * 4.- Se crea la funcion limpiarHTML con la logica más rapida (while)
+ * 2.- Repetimos la logica para la logica del select minimo y maximo
  * 
  */
