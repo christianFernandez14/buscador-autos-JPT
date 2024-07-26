@@ -42,37 +42,43 @@ year.addEventListener('change', event => {
 });
 
 minimo.addEventListener('change', event => {
-  datosBusqueda.precioMin = event.target.value;
+  datosBusqueda.precioMin = parseInt(event.target.value);
 
   filtrarAuto();
 
 });
 
 maximo.addEventListener('change', event => {
-  datosBusqueda.precioMax = event.target.value;
+  datosBusqueda.precioMax = parseInt(event.target.value);
 
   filtrarAuto();
 
 });
 
 puertas.addEventListener('change', event => {
-  datosBusqueda.puertas = event.target.value;
+  datosBusqueda.puertas = parseInt(event.target.value);
+
+  filtrarAuto();
 
 });
 
 transmision.addEventListener('change', event => {
   datosBusqueda.transmision = event.target.value;
 
+  filtrarAuto();
+
 });
 
 color.addEventListener('change', event => {
   datosBusqueda.color = event.target.value;
 
+  filtrarAuto();
+
 })
 
 // Funciones
 function mostrarAutos(autos) {
-  limpiarHTML(); // Elimina el HTML previo
+  limpiarHTML();
 
   autos.forEach(auto => {
     const { marca, modelo, year, puertas, transmision, precio, color } = auto
@@ -86,7 +92,6 @@ function mostrarAutos(autos) {
 
 }
 
-// Funcion que limpiara el HTML
 function limpiarHTML() {
   while (resultado.firstChild) {
     resultado.removeChild(resultado.firstChild);
@@ -111,8 +116,10 @@ function filtrarAuto() {
     .filter(filtrarYear)
     .filter(filtrarMinimo)
     .filter(filtrarMaximo)
+    .filter(filtarPuertas)
+    .filter(filtarTransmision)
+    .filter(filtarColor)
 
-  // console.log(resultado);
   mostrarAutos(resultado)
 
 }
@@ -136,9 +143,7 @@ function filtrarYear(auto) {
 }
 
 function filtrarMinimo(auto) {
-
   const { precioMin } = datosBusqueda
-  // console.log(precioMin);
 
   if (precioMin) {
     return auto.precio >= precioMin;
@@ -147,9 +152,7 @@ function filtrarMinimo(auto) {
 }
 
 function filtrarMaximo(auto) {
-
   const { precioMax } = datosBusqueda
-  // console.log(precioMax);
 
   if (precioMax) {
     return auto.precio <= precioMax;
@@ -157,13 +160,40 @@ function filtrarMaximo(auto) {
   return auto;
 }
 
+function filtarPuertas(auto) {
+  const { puertas } = datosBusqueda
+
+  if (puertas) {
+    return auto.puertas === puertas;
+  }
+  return auto;
+}
+
+function filtarTransmision(auto) {
+  const { transmision } = datosBusqueda
+
+  if (transmision) {
+    return auto.transmision === transmision;
+  }
+  return auto;
+}
+
+function filtarColor(auto) {
+  const { color } = datosBusqueda
+
+  if (color) {
+    return auto.color === color;
+  }
+  return auto;
+}
+
+
 
 
 
 /** Comentarios extras:
  * 
- * 1.- Siguiendo con las funcionalidades, debes seguir llamandola en los subsiguientes listener
+ * 1.- A pesar que la logica no en el maximo y el minimo; no llega la caracteristca de estricto, prefiero manejar la comparacion de tipo de datos iguales, por eso le agregue el parseInt.
  * 
- * 2.- Repetimos la logica para la logica del select minimo y maximo
- * 
+ * 2.- Siguiendo con las demás funcionalidades, se repite el codigo, para cada una de ellas.
  */
