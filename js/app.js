@@ -30,13 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // Event listener para cada uno de los Select
 marca.addEventListener('change', event => {
   datosBusqueda.marca = event.target.value;
-
   filtrarAuto();
 
 });
 
 year.addEventListener('change', event => {
   datosBusqueda.year = event.target.value;
+
+  filtrarAuto();
 
 });
 
@@ -91,22 +92,30 @@ function llenarSelect() {
 }
 
 function filtrarAuto() {
-  // console.log('Filtrando...');
-
-  // Recuerda que "autos" es el array que tiene todo los datos o db, como se comporta para este momentos
-  const resultado = autos.filter(filtrarMarca)
+  // Aca podemos filtrar por el año tambien 
+  const resultado = autos.filter(filtrarMarca).filter(filtrarYear)
 
   console.log(resultado);
-
 
 }
 
 function filtrarMarca(auto) {
-  // console.log(auto);// Aca podemos ver que itera sobre todo el array
-  if (datosBusqueda.marca) { // debemos vericiar que haya algun dato, por eso hacemos este condicional previo
-    return auto.marca === datosBusqueda.marca;
+  const { marca } = datosBusqueda
+  if (marca) {
+    return auto.marca === marca;
+
   }
-  // Este return aca, es para no perder la referencia, en caso de que el usuario no filtre por marca, el nuevo else.s
+  return auto;
+}
+
+function filtrarYear(auto) {
+  // console.log(auto); // vemos que el array es el ya filtro Marca
+  const { year } = datosBusqueda
+  // console.log(typeof year); // Al incio nos nos traia informacion por que estabamos comparando string con number y usando el comparador strict
+  // console.log(typeof auto.year); // number
+  if (year) {
+    return auto.year === parseInt(year);
+  }
   return auto;
 }
 
@@ -114,11 +123,8 @@ function filtrarMarca(auto) {
 
 /** Comentarios extras:
  * 
- * 1.- Una vez los event ya escuchando, podemos trabajar con los filtros, para ello podemos usar una funcion que genere esa logica.
+ * 1.- Antes de continuar con los otros filtros, podemos mejorar un poco el codigo de filtrarMarca, haciendo destructuring.
  * 
- * 2.- Pera esta funcion tendran otras funciones como parametros, y a esta la definimos como funcniones de alto nivel, la idea aca es que filtre por el selector que se encuentre el usuario dando click en el momento.
- * 
- * 3.- Una vez en esta funcion de alto nivel, debes cerciorarte que haya valor en esa propiedad, y de contrario retorna el array completo
- * 
+ * 2.- Ya con el codigo más limpio, nos vamos a iterar por el Select siguiente que es el año, el filter soporta iteracion sobre iteracion.
  * 
  */
