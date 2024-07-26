@@ -7,6 +7,10 @@ const puertas = document.querySelector('#puertas')
 const transmision = document.querySelector('#transmision')
 const color = document.querySelector('#color')
 
+const contenedor = document.querySelector('.contenedor')
+
+// console.log(contenedor);
+
 const resultado = document.querySelector('#resultado')
 const max = new Date().getFullYear();
 const min = max - 10
@@ -120,7 +124,24 @@ function filtrarAuto() {
     .filter(filtarTransmision)
     .filter(filtarColor)
 
-  mostrarAutos(resultado)
+  if (resultado.length) {
+    mostrarAutos(resultado)
+
+  } else {
+    // console.log('No hay resultados...')
+    noResultado();
+  }
+
+}
+
+function noResultado() {
+  limpiarHTML();
+
+  const noResultados = document.createElement('DIV')
+
+  noResultados.classList.add('alerta', 'error')
+  noResultados.textContent = 'No hay resultados, intenta con otros terminos de busquedas'
+  contenedor.appendChild(noResultados)
 
 }
 
@@ -193,7 +214,5 @@ function filtarColor(auto) {
 
 /** Comentarios extras:
  * 
- * 1.- A pesar que la logica no en el maximo y el minimo; no llega la caracteristca de estricto, prefiero manejar la comparacion de tipo de datos iguales, por eso le agregue el parseInt.
- * 
- * 2.- Siguiendo con las demás funcionalidades, se repite el codigo, para cada una de ellas.
+ * 1.- 
  */
